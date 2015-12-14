@@ -35,12 +35,6 @@ function validateForm(form, options) {
   return null;
 }
 
-// new user page
-router.get('/new', function(req, res, next) {
-  res.render('users/new', {messages: req.flash()});
-});
-
-// edit user page
 router.get('/:id/edit', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
     if (err) {
