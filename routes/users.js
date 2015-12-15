@@ -1,14 +1,14 @@
-var express = require('express');
+var express = require('express'),
     User = require('../models/User');
 var router = express.Router();
 
 function needAuth(req, res, next) {
-    if (req.session.user) {
-      next();
-    } else {
-      req.flash('danger', '로그인이 필요합니다.');
-      res.redirect('/signin');
-    }
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    req.flash('danger', '로그인이 필요합니다.');
+    res.redirect('/signin');
+  }
 }
 
 function validateForm(form, options) {
@@ -86,6 +86,9 @@ router.get('/', needAuth, function(req, res, next) {
   });
 });
 
+router.get('/new', function(req, res, next) {
+  res.render('users/new', {messages: req.flash()});
+});
 
 // read one user
 router.get('/:id', function(req, res, next) {
